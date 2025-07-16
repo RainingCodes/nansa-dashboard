@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import plotly.graph_objects as go
 
-__all__ = ["make_fear_greed_gauge"]
+# __all__ = ["make_fear_greed_gauge"]
 
 # -----------------------------------------------------------------------------
 # 내부 헬퍼: 값 → 레이블 매핑
