@@ -42,7 +42,7 @@ def _label(value: int) -> str:
 # 게이지 생성 함수
 # -----------------------------------------------------------------------------
 
-def make_fear_greed_gauge(value: int, *, title: str = "Fear & Greed Index") -> go.Figure:  # noqa: D401
+def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") -> go.Figure:  # noqa: D401
     """Fear & Greed Index 값을 게이지 차트로 렌더링.
 
     Parameters
