@@ -2,6 +2,7 @@ altair==5.5.0
 attrs==25.3.0
 beautifulsoup4==4.13.4
 blinker==1.9.0
+bs4==0.0.2
 cachetools==6.1.0
 cattrs==25.1.1
 certifi==2025.7.14

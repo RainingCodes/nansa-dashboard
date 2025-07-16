@@ -1,5 +1,3 @@
 # 데이터 관련 폴더
-- 주식 관련 csv 데이터
-- 지표 관련 csv 데이터
-- API 관련 함수?
-- 추가좀...
+- get_index.py
+    -  get_financial_indices: 호충 시점의 지표(KOSPI, KASDAQ, USE/KRW, NASDAQ) 가격 dict 반환
