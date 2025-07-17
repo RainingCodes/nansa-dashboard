@@ -48,6 +48,20 @@ def sidebar_indices() -> tuple[str, str, str, str]:
     # s_nasdaq = st.sidebar.write(f"NASDAQ: {indices['NASDAQ']}")
     s_fear = st.sidebar.plotly_chart(make_fear_greed_gauge(fear_and_greed_index.value))
 
+    # 사이드바 파란색
+    st.markdown(
+        """
+        <style>
+        /* Streamlit 사이드바의 메인 컨테이너를 타겟팅합니다. */
+        [data-testid="stSidebar"] {
+            background-color: #E0F2F7;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+
     st.markdown(
         """
         <style>
