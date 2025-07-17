@@ -10,6 +10,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from components.top50_companies import company_list
+import json
 
 # ===== 0. 기본 설정 ===== #
 font_path = 'C:/Windows/Fonts/malgun.ttf'
@@ -151,10 +152,15 @@ for _, row in filtered_df.iterrows():
         if company in company_titles:
             company_titles[company].append(row['제목'])
 
+company_latest_news = {}
 for company, titles in company_titles.items():
     if not titles:
         print(f"[스킵] {company}: 관련 뉴스 없음")
         continue
+    matched_rows = filtered_df[filtered_df['회사목록'].apply(lambda x: company in x)].tail(10)[::-1]
+    company_latest_news[company] = [
+        {'title': row['제목'], 'link': row['링크']} for _, row in matched_rows.iterrows()
+    ]
 
     text = ' '.join(titles)
     tokens = tokenize(text)
@@ -217,3 +223,6 @@ for company, titles in company_titles.items():
     total_neg = sum(word_freq[w] for w in neg_words)
     if total_pos + total_neg > 0:
         draw_sentiment_pie(total_pos, total_neg, company)
+
+with open('data/company_latest_news.json', 'w', encoding='utf-8') as f:
+    json.dump(company_latest_news, f, ensure_ascii=False, indent=2)
