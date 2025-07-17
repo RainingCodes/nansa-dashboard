@@ -43,8 +43,8 @@ def rend_main_page():
         st.info(":왼쪽_화살표: 왼쪽에 있는 검색창에 분석하고 싶은 회사 이름과 기간을 입력하고 확인 버튼 눌러주세요!")
     
     with right_col: # 오른쪽 컬럼에 이미지 배치
-        col1, col2 = st.columns(2)
         st.header("시가 총액 상위 50위 종목")
+        col1, col2 = st.columns(2)
 
         for i, company_name in enumerate(st.session_state['top50_companies'], start=1):
             if i % 2 == 1:
