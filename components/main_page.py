@@ -3,16 +3,17 @@ import datetime
 import streamlit as st
 
 from components.chart_page import rend_chart_page
-
+if 'top50_companies' not in st.session_state:
+    from components.top50_companies import company_list
+    st.session_state['top50_companies'] = company_list
 
 def _change_page_state_to_chart(company_name: str):
     st.session_state['page'] = 'chart'
+    st.session_state['selected_company'] = company_name
 
-    today = datetime.datetime.now()
-    this_year = today.year
-    jan_1 = datetime.date(this_year, 1, 1)
-
-    return company_name, (jan_1, today)
+    today = datetime.date.today()
+    jan_1 = datetime.date(today.year, 1, 1)
+    st.session_state['selected_date'] = (jan_1, today)
 
 
 def rend_main_page():
@@ -49,10 +50,10 @@ def rend_main_page():
             if i % 2 == 1:
                 with col1:
                     st.button(
-                        f"{i} - {company_name}",
+                        f"{i} - {company_name}",  # 사용자에게는 "1 - 삼성전자"로 보이게
                         key=f"top50_{i}",
                         on_click=_change_page_state_to_chart,
-                        args=[company_name]
+                        args=[company_name]  # 실제 넘기는 값은 "삼성전자"만
                     )
             else:
                 with col2:
@@ -64,6 +65,11 @@ def rend_main_page():
                     )
 
     if st.session_state.get('page') == 'chart':
-        # 차트 페이지로 이동
-        company_name, selected_dates = _change_page_state_to_chart(st.session_state['top50_companies'][0])
-        rend_chart_page(company_name, selected_dates)
+        company_name = st.session_state.get('selected_company')
+        selected_dates = st.session_state.get('selected_date')
+
+        # 유효성 검사
+        if company_name is not None and selected_dates is not None:
+            rend_chart_page(company_name, selected_dates)
+        else:
+            st.error("회사명이나 날짜가 설정되지 않았습니다.")

@@ -38,7 +38,10 @@ sidebar_indices()
 # 종목명 입력 후 확인 클릭 시 차트 페이지 로드
 if confirm_btn or st.session_state['page'] == 'chart': # 차트 화면 (차트, 지표 조작, 뉴스 정보)
     st.session_state['page'] = 'chart'
-    rend_chart_page(company_name, selected_dates)
+    
+    selected_company = st.session_state.get('selected_company') or company_name
+    selected_dates = st.session_state.get('selected_date') or selected_dates
+    rend_chart_page(selected_company, selected_dates)
 else: # 메인 화면
     rend_main_page()
 
