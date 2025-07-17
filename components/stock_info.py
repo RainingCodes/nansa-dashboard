@@ -46,6 +46,8 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
     Returns:
         tuple: (회사명(str), (시작일, 종료일)(tuple of date), 확인버튼 클릭여부(bool))
     """
+    if st.sidebar.button("🏠 홈으로"):
+        st.session_state['page'] = 'main'
     company_name = st.sidebar.text_input('회사 이름을 입력하세요: ')
     today = datetime.datetime.now()
     this_year = today.year
