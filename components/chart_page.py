@@ -4,11 +4,11 @@ import streamlit as st
 
 import datetime
 import FinanceDataReader as fdr
-from ta.trend import SMAIndicator
 
 
 from components.stock_info import get_stock_code_by_company
 from components.chart_indicator_form import chart_indicator_form
+from components.plot import show_sentiment_analysis
 from chart_modules.candle import make_stock_candle
 from chart_modules.candle_index import add_indicator_to_candle
 
@@ -37,6 +37,9 @@ def rend_chart_page(company_name: str, selected_dates: Tuple):
         with st.container():
             # 차트 시각화
             st.plotly_chart(st.session_state.get('candle_fig'))
-    st.text("뉴스 자연어 처리 및 뉴스 링크 칸")
+    
+    
+    st.header(f"{company_name} 뉴스 데이터")
+    show_sentiment_analysis(company_name)
 
 
