@@ -103,7 +103,7 @@ def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") ->
 
     fig.update_layout(
         margin=dict(l=40, r=40, t=80, b=40),
-        height=400,
+        height=200,
         template="plotly_white",
     )
 
