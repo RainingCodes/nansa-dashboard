@@ -4,11 +4,11 @@
 
 색상 & 레이블 (CNN Fear & Greed Index 기준)
 -------------------------------------------
--  0–20  : Extreme Fear 🟥
-- 20–40  : Fear 🟥🟧
-- 40–60  : Neutral 🟨
-- 60–80  : Greed 🟩
-- 80–100 : Extreme Greed 🟩🟢
+-  0-20  : Extreme Fear 🟥
+- 20-40  : Fear 🟥🟧
+- 40-60  : Neutral 🟨
+- 60-80  : Greed 🟩
+- 80-100 : Extreme Greed 🟩🟢
 
 Example
 -------
@@ -66,7 +66,7 @@ def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") ->
         go.Indicator(
             mode="gauge+number",
             value=value,
-            number={"font": {"size": 48}},
+            number={"font": {"size": 12}},
             title={"text": title, "font": {"size": 24}},
             gauge={
                 "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "darkgray"},
@@ -93,12 +93,12 @@ def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") ->
     # 현재 구간 텍스트(Extreme Fear / Fear / Neutral / Greed / Extreme Greed) 추가
     fig.add_annotation(
         x=0.5,
-        y=0.5,
+        y=0.2,
         xref="paper",
         yref="paper",
         text=label,
         showarrow=False,
-        font=dict(size=30, color="black"),
+        font=dict(size=16, color="black"),
     )
 
     fig.update_layout(

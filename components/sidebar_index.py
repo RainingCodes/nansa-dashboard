@@ -30,13 +30,24 @@ def sidebar_indices() -> tuple[str, str, str, str]:
     import fear_and_greed
     from chart_modules.fear_greed import make_fear_greed_gauge
     fear_and_greed_index = fear_and_greed.get()
-    s_kospi = st.sidebar.write(f"KOSPI: {indices['KOSPI']}")
-    s_kosdaq = st.sidebar.write(f"KOSDAQ: {indices['KOSDAQ']}")
-    s_usdkrw = st.sidebar.write(f"USD/KRW: {indices['USD/KRW']}")
-    s_nasdaq = st.sidebar.write(f"NASDAQ: {indices['NASDAQ']}")
+
+
+    # 사이드바에 코스피, 코스닥, 환율, 나스닥 지수 제시
+    st.sidebar.subheader("📊 주요 금융 지수")
+    contents =f"""
+    KOSPI: {indices['KOSPI']}<br>
+    KOSDAQ: {indices['KOSDAQ']}<br>
+    USD/KRW: {indices['USD/KRW']}<br>
+    NASDAQ: {indices['NASDAQ']}
+    """
+    st.sidebar.markdown(contents, unsafe_allow_html=True)
+    # s_kospi = st.sidebar.write(f"KOSPI: {indices['KOSPI']}")
+    # s_kosdaq = st.sidebar.write(f"KOSDAQ: {indices['KOSDAQ']}")
+    # s_usdkrw = st.sidebar.write(f"USD/KRW: {indices['USD/KRW']}")
+    # s_nasdaq = st.sidebar.write(f"NASDAQ: {indices['NASDAQ']}")
     s_fear = st.sidebar.plotly_chart(make_fear_greed_gauge(fear_and_greed_index.value))
 
-    return s_kospi, s_kosdaq, s_usdkrw, s_nasdaq, s_fear
+    # return s_kospi, s_kosdaq, s_usdkrw, s_nasdaq, s_fear
 
 
 # # >>>>> 테스트 코드 )- 공탐지수

@@ -22,10 +22,6 @@ company_name, selected_dates, confirm_btn = sidebar_inputs()
 # confirm_btn = sidebar_inputs()
 
 
-# 사이드바에 코스피, 코스닥, 환율, 나스닥 지수 제시
-st.sidebar.markdown("---")
-st.sidebar.title("📊 주요 금융 지수")
-
 current_file_path = os.path.abspath(__file__)
 project_root_dir = os.path.dirname(current_file_path)
 

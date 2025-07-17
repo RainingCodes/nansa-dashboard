@@ -46,9 +46,20 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
     Returns:
         tuple: (회사명(str), (시작일, 종료일)(tuple of date), 확인버튼 클릭여부(bool))
     """
-    if st.sidebar.button("🏠 홈으로"):
+    col1, col2 = st.sidebar.columns([2, 1])
+    with col1:
+        home_btn = st.button("🏠 홈으로")
+    with col2:
+        confirm_btn = st.button('확인')
+
+    # 홈 버튼 클릭 시 메인 페이지로 이동
+    if home_btn:
         st.session_state['page'] = 'main'
-    company_name = st.sidebar.text_input('회사 이름을 입력하세요: ')
+    company_name = st.sidebar.text_input(
+        '회사 이름을 입력하세요: ',
+        label_visibility="collapsed",
+        placeholder="회사 이름을 입력하세요"
+    )
     today = datetime.datetime.now()
     this_year = today.year
     jan_1 = datetime.date(this_year, 1, 1)
@@ -58,9 +69,10 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
         None,
         today,
         format="MM.DD.YYYY",
+        label_visibility="collapsed"
     )
     # st.sidebar.write(selected_dates)
-    confirm_btn = st.sidebar.button('확인')
+    
     
     return company_name, selected_dates, confirm_btn
 
