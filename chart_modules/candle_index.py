@@ -101,7 +101,7 @@ def _add_rsi(indicator_info):
         mode='lines'
     )
 
-    st.session_state['candle_fig'].add_trace(rsi_go, row=2, col=1)  # RSI는 보통 하단에 표시합니다.
+    st.session_state['candle_fig'].add_trace(rsi_go, row=3, col=1)  # RSI는 보통 하단에 표시합니다.
 
 def add_indicator_to_candle():
     # 메인페이지인 경우 스킵

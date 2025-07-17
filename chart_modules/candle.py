@@ -11,10 +11,10 @@ def make_stock_candle(company_name: str):
 
     # Create subplots with 2 rows; top for candlestick price, and bottom for bar volume
     fig = make_subplots(
-        rows = 2, cols = 1, shared_xaxes = True,
+        rows = 3, cols = 1, shared_xaxes = True,
         subplot_titles = (company_name, 'Volume'),
         vertical_spacing = 0.1,
-        row_width = [0.2, 0.7]
+        row_width = [0.2, 0.2, 0.7]
     )
     # ----------------
     # Candlestick Plot
