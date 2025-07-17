@@ -13,6 +13,8 @@ from components.plot import show_sentiment_analysis
 from chart_modules.candle import make_stock_candle
 from chart_modules.candle_index import add_indicator_to_candle
 
+from components.stock_info import _clear_company_name_input
+
 def rend_chart_page(company_name: str, selected_dates: Tuple):
     # 우리가 필요로하는 코드조각들
     try:
@@ -26,12 +28,14 @@ def rend_chart_page(company_name: str, selected_dates: Tuple):
             alert("없는 종목입니다.");
             </script>
             """,
-            height=0,
+            height=0
         )
 
         if st.session_state.get('page') == 'chart':
             st.session_state['page'] = 'main'
-            st.rerun()
+            st.header("홈으로 이동해주세요.")
+            st.button("🏠 홈으로", on_click=_clear_company_name_input, key="home_btn_at_not_found")
+            # st.rerun()
         return
     start_date = selected_dates[0].strftime(r"%Y-%m-%d")
     end_date = (selected_dates[1] + datetime.timedelta(days=1)).strftime(r"%Y-%m-%d")
