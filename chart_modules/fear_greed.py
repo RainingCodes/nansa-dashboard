@@ -66,8 +66,8 @@ def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") ->
         go.Indicator(
             mode="gauge+number",
             value=value,
-            number={"font": {"size": 50}},
-            title={"text": title, "font": {"size": 35}},
+            number={"font": {"size": 20}},
+            title={"text": title, "font": {"size": 25}},
             
             gauge={
                 "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "darkgray"},
@@ -94,7 +94,7 @@ def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") ->
     # 현재 구간 텍스트(Extreme Fear / Fear / Neutral / Greed / Extreme Greed) 추가
     fig.add_annotation(
         x=0.5,
-        y=0.5,
+        y=0.45,
         xref="paper",
         yref="paper",
         text=label,
