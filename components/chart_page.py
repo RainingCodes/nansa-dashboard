@@ -39,7 +39,8 @@ def rend_chart_page(company_name: str, selected_dates: Tuple):
             st.plotly_chart(st.session_state.get('candle_fig'))
     
     
-    st.header(f"{company_name} 뉴스 데이터")
-    show_sentiment_analysis(company_name)
+    if company_name in st.session_state.get('top50_companies'):
+        st.header(f"{company_name} 뉴스 데이터")
+        show_sentiment_analysis(company_name)
 
 

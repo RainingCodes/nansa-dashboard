@@ -7,13 +7,14 @@ from components.stock_info import sidebar_inputs
 from components.chart_page import rend_chart_page
 # components 디렉토리 아래에 있는 sidebar_index 모듈에서 함수를 임포트합니다.
 from components.sidebar_index import sidebar_indices
-
+from components.top50_companies import company_list
 
 # ───────────────── 1. 페이지 설정 ─────────────────
 st.set_page_config(layout="wide")
 st.session_state.setdefault('page', 'main')  # 기본 페이지를 설정
 st.session_state.setdefault('indicators', [])
 st.session_state.setdefault('delete_btns', [])
+st.session_state.setdefault('top50_companies', company_list)
 
 # 사이드바에 종목명 입력 ->
 company_name, selected_dates, confirm_btn = sidebar_inputs()
