@@ -26,7 +26,7 @@ def _add_ma(indicator_info):
             y=sma,
             line_color=indicator_info['line_color'],
             line_width=indicator_info['line_width'],
-            name=f"MA {indicator_info['period']}"
+            name=f"MA ({indicator_info['period']})"
         ), row=1, col=1
     )
 
@@ -115,12 +115,11 @@ def add_indicator_to_candle():
     for indicator in st.session_state.get('indicators'):
         match indicator['name']:
             case 'ma':
-                print("이평선")
                 _add_ma(indicator)
             case 'ema':
                 _add_ema(indicator)
             case 'bollinger':
                 _add_bollinger(indicator)
             case 'rsi':
-                _add_rsi()
+                _add_rsi(indicator)
 

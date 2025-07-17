@@ -32,7 +32,7 @@ def rend_chart_page(company_name: str, selected_dates: Tuple):
         chart_indicator_form()
 
     add_indicator_to_candle()
-    print(st.session_state['indicators'])
+    
     with chart_container:
         with st.container():
             # 차트 시각화

@@ -14,46 +14,96 @@ def _line_form(defualt_color: str = "#0000FF", default_width: int = 2) -> Tuple[
     with color:
         line_color = st.color_picker("선 색", defualt_color)
     with width:
-        line_width = st.slider("선 굵기", min_value=1, max_value=10, value=2)
+        line_width = st.slider("선 굵기", min_value=1, max_value=10, value=default_width)
     
     return line_color, line_width
+
+def _del_indicator(index: int):
+    # 선택한 인디케이터 삭제
+    del st.session_state['indicators'][index]
+    del st.session_state['delete_btns'][index]
+
+def _add_delete_btn():
+    st.text("지표 삭제")
+    
+    # 삭제 버튼 띄우기
+    for i, indicator in enumerate(st.session_state['indicators']):
+        name = indicator['name']
+        if name in ['ma', 'ema', 'rsi']:
+            name = name.upper()
+            period = indicator.get('period')
+            btn_label = f"{name} ({period})"
+        elif name == 'bollinger':
+            period = indicator.get('period')
+            std_dev = indicator.get('std_dev')
+            btn_label = f"BB ({period}, {std_dev})"
+
+        delete_btn = st.button(
+            btn_label, 
+            key=f"delete_indicator_btn_{i}",
+            on_click=_del_indicator,
+            args=[i]
+        )
+        st.session_state['delete_btns'].append(delete_btn)
+
 
 def chart_indicator_form():
     st.header("차트 지표 입력")
 
-    indicator_choice = st.radio("지표 선택", ["이동평균선", "볼린저 밴드"], key="indicator_choice")
+    MA = '이동평균선(MA)'
+    EMA = '지수이동평균선(EMA)'
+    BOLLINGER = '볼린저 밴드(BB)'
+    RSI = '상대강도지수(RSI)'
 
-    match indicator_choice:
-        case "이동평균선":
-            period = st.number_input("이동평균선 기간", min_value=1, max_value=100, value=20)
-            line_color, line_width = _line_form("#0000FF", 2)
+    indicator_list = [MA, EMA, RSI, BOLLINGER]
+    selectbox, confirm = st.columns([3, 1])
+    with selectbox:
+        indicator_choice = st.selectbox(
+            '지표선택',
+            indicator_list,
+            key="indicator_choice",
+            label_visibility="collapsed" # 라벨 숨기기
+        )
+    with confirm:
+        add_btn = st.button("추가")
 
-            confirm_btn = st.button("추가")
+    if indicator_choice in [MA, EMA, RSI]: # 이동평균선 & 지수이동평균선 & rsi
+        period = st.number_input("기간", min_value=1, max_value=1000, value=20)
+        line_color, line_width = _line_form("#0000FF", 2)
 
-            if confirm_btn:
-                indicator_dict = {
-                    'name': 'ma',
-                    'period': period,
-                    'line_color': line_color,
-                    'line_width': line_width
-                }
-                # session_state에 선택한 인디케이터 저장
-                st.session_state['indicators'].append(indicator_dict)
+        if add_btn:
+            indicator_dict = {
+                'period': period,
+                'line_color': line_color,
+                'line_width': line_width
+            }
+            # 선택한 인디케이터 이름 설정
+            if indicator_choice == MA:
+                indicator_dict['name'] = 'ma'
+            elif indicator_choice == EMA:
+                indicator_dict['name'] = 'ema'
+            elif indicator_choice == RSI:
+                indicator_dict['name'] = 'rsi'
 
-        case "볼린저 밴드":
-            period = st.number_input("볼린저 밴드 기간", min_value=1, max_value=100, value=20)
-            std_dev = st.number_input("표준편차", min_value=1, max_value=5, value=2)
-            line_color, line_width = _line_form("#0000FF", 2)
+            # session_state에 선택한 인디케이터 저장
+            st.session_state['indicators'].append(indicator_dict)
 
-            confirm_btn = st.button("추가")
+    elif indicator_choice == BOLLINGER: # 볼린저 밴드
+        period = st.number_input("기간", min_value=1, max_value=100, value=20)
+        std_dev = st.number_input("표준편차", min_value=1, max_value=5, value=2)
+        line_color, line_width = _line_form("#0000FF", 2)
 
-            if confirm_btn:
-                indicator_dict = {
-                    'name': 'bollinger',
-                    'period': period,
-                    'std_dev': std_dev,
-                    'line_color': line_color,
-                    'line_width': line_width
-                }
-                # 선택한 인디케이터 저장
-                st.session_state['indicators'].append(indicator_dict)
+        if add_btn:
+            indicator_dict = {
+                'name': 'bollinger',
+                'period': period,
+                'std_dev': std_dev,
+                'line_color': line_color,
+                'line_width': line_width
+            }
+            # 선택한 인디케이터 저장
+            st.session_state['indicators'].append(indicator_dict)
+
+    # 삭제 버튼 추가
+    if st.session_state['indicators']:
+        _add_delete_btn()

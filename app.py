@@ -13,6 +13,7 @@ from components.sidebar_index import sidebar_indices
 st.set_page_config(layout="wide")
 st.session_state.setdefault('page', 'main')  # 기본 페이지를 설정
 st.session_state.setdefault('indicators', [])
+st.session_state.setdefault('delete_btns', [])
 
 # 사이드바에 종목명 입력 ->
 company_name, selected_dates, confirm_btn = sidebar_inputs()
