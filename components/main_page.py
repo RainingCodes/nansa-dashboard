@@ -1,4 +1,18 @@
+import datetime
+
 import streamlit as st
+
+from components.chart_page import rend_chart_page
+
+
+def _change_page_state_to_chart(company_name: str):
+    st.session_state['page'] = 'chart'
+
+    today = datetime.datetime.now()
+    this_year = today.year
+    jan_1 = datetime.date(this_year, 1, 1)
+
+    return company_name, (jan_1, today)
 
 
 def rend_main_page():
@@ -28,14 +42,28 @@ def rend_main_page():
         st.info(":왼쪽_화살표: 왼쪽에 있는 검색창에 분석하고 싶은 회사 이름과 기간을 입력하고 확인 버튼 눌러주세요!")
     
     with right_col: # 오른쪽 컬럼에 이미지 배치
+        col1, col2 = st.columns(2)
         st.header("시가 총액 상위 50위 종목")
-        dummy_stocks = [
-            "삼성전자", "SK하이닉스", "LG화학", "현대차", "네이버",
-            "카카오", "셀트리온", "삼성바이오로직스", "POSCO", "기아",
-            "삼성SDI", "현대모비스", "신한지주", "KB금융", "LG전자",
-            "삼성물산", "SK텔레콤", "아모레퍼시픽", "하나금융지주", "우리금융지주",
-            # ... 추가 종목들
-        ]
-        
-        for company_name in dummy_stocks:
-            st.markdown(f"- {company_name}")
+
+        for i, company_name in enumerate(st.session_state['top50_companies'], start=1):
+            if i % 2 == 1:
+                with col1:
+                    st.button(
+                        f"{i} - {company_name}",
+                        key=f"top50_{i}",
+                        on_click=_change_page_state_to_chart,
+                        args=[company_name]
+                    )
+            else:
+                with col2:
+                    st.button(
+                        f"{i} - {company_name}",
+                        key=f"top50_{i}",
+                        on_click=_change_page_state_to_chart,
+                        args=[company_name]
+                    )
+
+    if st.session_state.get('page') == 'chart':
+        # 차트 페이지로 이동
+        company_name, selected_dates = _change_page_state_to_chart(st.session_state['top50_companies'][0])
+        rend_chart_page(company_name, selected_dates)
