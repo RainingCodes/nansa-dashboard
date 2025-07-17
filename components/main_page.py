@@ -64,12 +64,12 @@ def rend_main_page():
                         args=[company_name]
                     )
 
-    if st.session_state.get('page') == 'chart':
-        company_name = st.session_state.get('selected_company')
-        selected_dates = st.session_state.get('selected_date')
+    # if st.session_state.get('page') == 'chart':
+    #     company_name = st.session_state.get('selected_company')
+    #     selected_dates = st.session_state.get('selected_date')
 
-        # 유효성 검사
-        if company_name is not None and selected_dates is not None:
-            rend_chart_page(company_name, selected_dates)
-        else:
-            st.error("회사명이나 날짜가 설정되지 않았습니다.")
+    #     # 유효성 검사
+    #     if company_name is not None and selected_dates is not None:
+    #         rend_chart_page(company_name, selected_dates)
+    #     else:
+    #         st.error("회사명이나 날짜가 설정되지 않았습니다.")

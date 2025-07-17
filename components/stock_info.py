@@ -59,6 +59,7 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
     )
     # st.sidebar.write(selected_dates)
     confirm_btn = st.sidebar.button('확인')
+    
     return company_name, selected_dates, confirm_btn
 
 
