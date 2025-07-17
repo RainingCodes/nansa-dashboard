@@ -24,3 +24,11 @@
 
 - FinanceDataReader 주식 데이터
 ![삼성전자 데이터프레임](stock_df.png)
+
+## 기능
+- 당일의 KOSPI, KOSDAQ, 달러 환율, NASDAQ 지수 표시
+- 공포탐욕지수(Fear & Greed Index) 표시
+- 원하는 종목 검색
+- 차트/보조지표 구현(MA,EMA,RSI,BB)
+- 종목 뉴스 데이터 워드클라우드 조회(긍정/부정 키워드,비율)
+- 뉴스 리스트 조회/이동
