@@ -1,4 +1,6 @@
 import streamlit as st
+import sys
+import os
 
 from components.stock_info import (
     get_stock_code_by_company,
@@ -6,6 +8,9 @@ from components.stock_info import (
 )
 
 from components.chart_page import rend_chart_page
+# components 디렉토리 아래에 있는 sidebar_index 모듈에서 함수를 임포트합니다.
+from components.sidebar_index import sidebar_indices
+
 
 import plotly.express as px
 
@@ -15,6 +20,18 @@ st.set_page_config(layout="wide")
 
 # 사이드바에 종목명 입력 -> 
 company_name, selected_dates, confirm_btn = sidebar_inputs()
+
+
+# 사이드바에 코스피, 코스닥, 환율, 나스닥 지수 제시
+
+current_file_path = os.path.abspath(__file__)
+project_root_dir = os.path.dirname(current_file_path)
+
+if project_root_dir not in sys.path:
+    sys.path.append(project_root_dir)
+
+# 사이드바에 지수를 표시하는 함수를 호출합니다.
+sidebar_indices()
 
 
 # 종목명 입력 후 확인 클릭 시 차트 페이지 로드
