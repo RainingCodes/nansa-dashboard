@@ -10,7 +10,7 @@ if 'top50_companies' not in st.session_state:
 def _change_page_state_to_chart(company_name: str):
     st.session_state['page'] = 'chart'
     st.session_state['selected_company'] = company_name
-    print("호출 되나??", st.session_state['selected_company'])
+    
     today = datetime.date.today()
     jan_1 = datetime.date(today.year, 1, 1)
     st.session_state['selected_date'] = (jan_1, today)

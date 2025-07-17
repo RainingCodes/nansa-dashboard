@@ -55,12 +55,12 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
     with col2:
         confirm_btn = st.button('확인')
 
-
+    
     company_name = st.sidebar.text_input(
         '회사 이름을 입력하세요: ',
         label_visibility="collapsed",
         placeholder="회사 이름을 입력하세요",
-        key='company_name_text_input',
+        key='company_name_text_input'
         # value=st.session_state.get('company_name_text_input', "회사 이름을 입력하세요")
     )
     today = datetime.datetime.now()

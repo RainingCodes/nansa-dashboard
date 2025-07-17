@@ -1,6 +1,7 @@
 from typing import Tuple
 
 import streamlit as st
+from streamlit.components.v1 import html
 
 import datetime
 import FinanceDataReader as fdr
@@ -14,7 +15,24 @@ from chart_modules.candle_index import add_indicator_to_candle
 
 def rend_chart_page(company_name: str, selected_dates: Tuple):
     # 우리가 필요로하는 코드조각들
-    stock_code = get_stock_code_by_company(company_name) # 종목 코드 받기
+    try:
+        stock_code = get_stock_code_by_company(company_name) # 종목 코드 받기
+    except ValueError as e:
+        # st.toast("없는 종목입니다.")
+
+        html(
+            """
+            <script>
+            alert("없는 종목입니다.");
+            </script>
+            """,
+            height=0,
+        )
+
+        if st.session_state.get('page') == 'chart':
+            st.session_state['page'] = 'main'
+            st.rerun()
+        return
     start_date = selected_dates[0].strftime(r"%Y-%m-%d")
     end_date = (selected_dates[1] + datetime.timedelta(days=1)).strftime(r"%Y-%m-%d")
 
