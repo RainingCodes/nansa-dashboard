@@ -66,7 +66,7 @@ def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") ->
         go.Indicator(
             mode="gauge+number",
             value=value,
-            number={"font": {"size": 20}},
+            number={"font": {"size": 20, "weight": "bold", "color": "black"}},
             title={"text": title, "font": {"size": 25}},
             
             gauge={
@@ -99,7 +99,7 @@ def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") ->
         yref="paper",
         text=label,
         showarrow=False,
-        font=dict(size=20, color="black"),
+        font=dict(size=20, color="black", weight="bold"),
     )
 
     # Plotly Figure의 전체 배경을 투명하게 설정
@@ -109,4 +109,3 @@ def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") ->
     )
 
     return fig
-make_fear_greed_gauge(70)
