@@ -66,8 +66,9 @@ def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") ->
         go.Indicator(
             mode="gauge+number",
             value=value,
-            number={"font": {"size": 12}},
-            title={"text": title, "font": {"size": 24}},
+            number={"font": {"size": 50}},
+            title={"text": title, "font": {"size": 35}},
+            
             gauge={
                 "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "darkgray"},
                 "bar": {"color": "rgba(31, 119, 180, 0.8)"},
@@ -93,18 +94,18 @@ def make_fear_greed_gauge(value: float, *, title: str = "Fear & Greed Index") ->
     # 현재 구간 텍스트(Extreme Fear / Fear / Neutral / Greed / Extreme Greed) 추가
     fig.add_annotation(
         x=0.5,
-        y=0.2,
+        y=0.5,
         xref="paper",
         yref="paper",
         text=label,
         showarrow=False,
-        font=dict(size=16, color="black"),
+        font=dict(size=20, color="black"),
     )
 
+    # Plotly Figure의 전체 배경을 투명하게 설정
     fig.update_layout(
-        margin=dict(l=40, r=40, t=80, b=40),
-        height=200,
-        template="plotly_white",
+        paper_bgcolor='rgba(0,0,0,0)',  # Figure 전체 배경색 (투명)
+        plot_bgcolor='rgba(0,0,0,0)'    # Plotting 영역 배경색 (투명)
     )
 
     return fig
