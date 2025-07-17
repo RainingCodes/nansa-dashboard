@@ -16,6 +16,7 @@ st.session_state.setdefault('page', 'main')  # 기본 페이지를 설정
 st.session_state.setdefault('indicators', [])
 st.session_state.setdefault('delete_btns', [])
 st.session_state.setdefault('top50_companies', company_list)
+# st.session_state.setdefault('company_name_text_input', "회사 이름을 입력하세요")
 
 # 사이드바에 종목명 입력 ->
 company_name, selected_dates, confirm_btn = sidebar_inputs()

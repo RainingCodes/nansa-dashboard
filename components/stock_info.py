@@ -37,7 +37,7 @@ def get_stock_code_by_company(company_name: str) -> str:
         return codes[0]
     else:
         raise ValueError(f"'{company_name}'에 해당하는 종목코드가 없습니다.")
-
+    
 
 def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
     """
@@ -52,13 +52,14 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
     with col2:
         confirm_btn = st.button('확인')
 
-    # 홈 버튼 클릭 시 메인 페이지로 이동
-    if home_btn:
-        st.session_state['page'] = 'main'
+
+
     company_name = st.sidebar.text_input(
         '회사 이름을 입력하세요: ',
         label_visibility="collapsed",
-        placeholder="회사 이름을 입력하세요"
+        placeholder="회사 이름을 입력하세요",
+        key='company_name_text_input',
+        value=""
     )
     today = datetime.datetime.now()
     this_year = today.year
@@ -73,7 +74,14 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
     )
     # st.sidebar.write(selected_dates)
     
-    
+    # 홈 버튼 클릭 시 메인 페이지로 이동
+    if home_btn:
+        st.session_state['page'] = 'main'
+        st.session_state['selected_date'] = (jan_1, today)
+        st.session_state['selected_company'] = None
+        
+        # st.session_state.company_name_text_input = ""
+
     return company_name, selected_dates, confirm_btn
 
 
@@ -103,3 +111,29 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
 #     excel_data = BytesIO()
 #     price_df.to_excel(excel_data)
 #     st.download_button("엑셀 파일 다운로드", excel_data, file_name='stock_data.xlsx')
+
+# import streamlit as st
+# import pandas as pd
+
+# def get_save():
+
+# 	st.session_state.text = ""
+
+# 	st.write('Entered the callback')
+
+# 	# Creating a csv file
+# 	df = pd.DataFrame({'col': 1}, index = [0])
+# 	df.to_csv("Testing.csv", mode = "a", index = False, header = None)	
+
+# 	st.write('2 st.session_state.text = ', st.session_state.text)
+
+# question = st.text_input(label = 'Question:', key = 'text')
+# st.write('1 st.session_state.text = ', st.session_state.text)
+
+# if question:
+
+# 	with st.form(key = 'my_form', clear_on_submit = False):			
+
+# 		st.write('Something is made here')					
+	
+# 		submit_button = st.form_submit_button(label = 'Submit', on_click = get_save)
