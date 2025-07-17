@@ -4,8 +4,10 @@ import plotly.graph_objects as go
 from plotly.offline import iplot
 from plotly.subplots import make_subplots
 
+import streamlit as st
 
-def make_stock_candle(company_name: str, df: pd.DataFrame):
+def make_stock_candle(company_name: str):
+    df = st.session_state.get('ohlcv')
 
     # Create subplots with 2 rows; top for candlestick price, and bottom for bar volume
     fig = make_subplots(
@@ -28,40 +30,7 @@ def make_stock_candle(company_name: str, df: pd.DataFrame):
         ), row = 1, col = 1
     )
 
-    # Moving Average
-    fig.add_trace(
-        go.Scatter(
-            x = df.index,
-            y = df['sma'], # 데이터프레임 안에 이미 ma가 계산된 값이 있어야됨.
-            line_color = 'black',
-            name = 'sma'
-        ), row = 1, col = 1
-    )
-    
-    # Upper Bound - 볼린저 밴드
-    fig.add_trace(
-        go.Scatter(
-            x = df.index,
-            y = df['sma'] + (df['std'] * 2),
-            line_color = 'gray',
-            line = {'dash': 'dash'},
-            name = 'upper band',
-            opacity = 0.5
-        ), row = 1, col = 1
-    )
-    
-    # Lower Bound fill in between with parameter 'fill': 'tonexty'
-    fig.add_trace(
-        go.Scatter(
-            x = df.index,
-            y = df['sma'] - (df['std'] * 2),
-            line_color = 'gray',
-            line = {'dash': 'dash'},
-            fill = 'tonexty',
-            name = 'lower band',
-            opacity = 0.5
-        ), row = 1, col = 1
-    )
+ 
     # ----------------
     # Volume Plot
     fig.add_trace(

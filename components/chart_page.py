@@ -8,40 +8,35 @@ from ta.trend import SMAIndicator
 
 
 from components.stock_info import get_stock_code_by_company
+from components.chart_indicator_form import chart_indicator_form
 from chart_modules.candle import make_stock_candle
+from chart_modules.candle_index import add_indicator_to_candle
 
 def rend_chart_page(company_name: str, selected_dates: Tuple):
-# 우리가 필요로하는 코드조각들
+    # 우리가 필요로하는 코드조각들
     stock_code = get_stock_code_by_company(company_name) # 종목 코드 받기
     start_date = selected_dates[0].strftime(r"%Y-%m-%d")
     end_date = (selected_dates[1] + datetime.timedelta(days=1)).strftime(r"%Y-%m-%d")
-    price_df = fdr.DataReader(f'KRX:{stock_code}', start_date, end_date)
 
-    # 지표를 위한 컬럼 준비 - sma, std
-    # 일단 종가 기준
-    price_df['std'] = price_df['Close'].std()
-    price_df['sma'] = SMAIndicator(price_df['Close'], window=20).sma_indicator()
+    # 주가 데이터 저장
+    st.session_state['ohlcv'] = fdr.DataReader(f'KRX:{stock_code}', start_date, end_date)
 
-    st.header(f"{company_name}의 주가")
-    candle_fig = make_stock_candle(company_name, price_df)
+    st.header(f"{company_name}의 주가") # 제목 표시
+    st.session_state['candle_fig'] = make_stock_candle(company_name) # 캔들차트 생성
 
 
-    # ───────────────── 3. 레이아웃 ─────────────────
-    #      [  왼쪽  ][      오른쪽       ]
+    # 캔틀 차트 | 지표 입력창
     chart_container, index_container = st.columns([2, 1], gap="small")
 
+    with index_container:
+        chart_indicator_form()
+
+    add_indicator_to_candle()
+    print(st.session_state['indicators'])
     with chart_container:
-        # 위쪽
         with st.container():
             # 차트 시각화
-            st.plotly_chart(
-                candle_fig,
-                use_container_width=True,
-                use_container_height=True,
-            )
-
-    with index_container:
-        st.text("지표 조작 칸")
+            st.plotly_chart(st.session_state.get('candle_fig'))
     st.text("뉴스 자연어 처리 및 뉴스 링크 칸")
 
 
