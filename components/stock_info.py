@@ -39,6 +39,9 @@ def get_stock_code_by_company(company_name: str) -> str:
         raise ValueError(f"'{company_name}'에 해당하는 종목코드가 없습니다.")
     
 
+def _clear_company_name_input():
+    st.session_state['company_name_text_input'] = ""
+
 def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
     """
     Streamlit 사이드바에 회사명 입력창, 날짜 선택 위젯, 확인 버튼을 생성하고 입력값을 반환합니다.
@@ -48,10 +51,9 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
     """
     col1, col2 = st.sidebar.columns([2, 1])
     with col1:
-        home_btn = st.button("🏠 홈으로")
+        home_btn = st.button("🏠 홈으로", on_click=_clear_company_name_input)
     with col2:
         confirm_btn = st.button('확인')
-
 
 
     company_name = st.sidebar.text_input(
@@ -59,7 +61,7 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
         label_visibility="collapsed",
         placeholder="회사 이름을 입력하세요",
         key='company_name_text_input',
-        value=""
+        # value=st.session_state.get('company_name_text_input', "회사 이름을 입력하세요")
     )
     today = datetime.datetime.now()
     this_year = today.year
@@ -80,7 +82,7 @@ def sidebar_inputs() -> tuple[str, tuple[datetime.date, datetime.date], bool]:
         st.session_state['selected_date'] = (jan_1, today)
         st.session_state['selected_company'] = None
         
-        # st.session_state.company_name_text_input = ""
+
 
     return company_name, selected_dates, confirm_btn
 

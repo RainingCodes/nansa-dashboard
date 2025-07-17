@@ -33,6 +33,7 @@ def sidebar_indices() -> tuple[str, str, str, str]:
 
 
     # 사이드바에 코스피, 코스닥, 환율, 나스닥 지수 제시
+    # st.sidebar(scrollbar=False)
     st.sidebar.subheader("📊 주요 금융 지수")
     contents =f"""
     KOSPI: {indices['KOSPI']}<br>
@@ -47,6 +48,17 @@ def sidebar_indices() -> tuple[str, str, str, str]:
     # s_nasdaq = st.sidebar.write(f"NASDAQ: {indices['NASDAQ']}")
     s_fear = st.sidebar.plotly_chart(make_fear_greed_gauge(fear_and_greed_index.value))
 
+    st.markdown(
+        """
+        <style>
+        /* Hide sidebar scrollbar */
+        section[data-testid="stSidebar"] > div:first-child { 
+            overflow: hidden; 
+            height: 100vh;
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
     # return s_kospi, s_kosdaq, s_usdkrw, s_nasdaq, s_fear
 
 

@@ -12,6 +12,7 @@ from components.top50_companies import company_list
 
 # ───────────────── 1. 페이지 설정 ─────────────────
 st.set_page_config(layout="wide")
+st.set_page_config()
 st.session_state.setdefault('page', 'main')  # 기본 페이지를 설정
 st.session_state.setdefault('indicators', [])
 st.session_state.setdefault('delete_btns', [])
@@ -19,7 +20,7 @@ st.session_state.setdefault('top50_companies', company_list)
 # st.session_state.setdefault('company_name_text_input', "회사 이름을 입력하세요")
 
 # 사이드바에 종목명 입력 ->
-company_name, selected_dates, confirm_btn = sidebar_inputs()
+company_name, input_dates, confirm_btn = sidebar_inputs()
 # confirm_btn = sidebar_inputs()
 
 
@@ -38,9 +39,14 @@ if confirm_btn or st.session_state['page'] == 'chart': # 차트 화면 (차트, 
     st.session_state['page'] = 'chart'
     
     selected_company = st.session_state.get('selected_company') if not company_name else company_name
-    selected_dates = st.session_state.get('selected_date') if not selected_dates else selected_dates
+    selected_dates = st.session_state.get('selected_date') if not input_dates else input_dates
     
+    company_name = None
+    input_dates = None
+
     rend_chart_page(selected_company, selected_dates)
+
+    
 else: # 메인 화면
     rend_main_page()
 
