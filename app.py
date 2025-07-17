@@ -1,53 +1,54 @@
 import streamlit as st
+import sys
+import os
 
-from components.stock_info import (
-    get_stock_code_by_company,
-    sidebar_inputs
-)
+from components.stock_info import sidebar_inputs
 
-st.write("난사 대시보드")
+from components.chart_page import rend_chart_page
+# components 디렉토리 아래에 있는 sidebar_index 모듈에서 함수를 임포트합니다.
+from components.sidebar_index import sidebar_indices
+
+
+# ───────────────── 1. 페이지 설정 ─────────────────
+st.set_page_config(layout="wide")
+st.session_state.setdefault('page', 'main')  # 기본 페이지를 설정
 
 # 사이드바에 종목명 입력 -> 
 company_name, selected_dates, confirm_btn = sidebar_inputs()
 
 
-# >>>>> 테스트 코드 - 공탐지수
-import fear_and_greed # 공탐 지수 가져오기 라이브러리
-from chart_modules.fear_greed import make_fear_greed_gauge # 공탐지수 게이지차트 시각화 함수 fig 반환
+# 사이드바에 코스피, 코스닥, 환율, 나스닥 지수 제시
 
-fear_and_greed_index = fear_and_greed.get() # 공탐지수 가져오기
-# 공탐 지수 게이지 시각화 fig 오브젝트
-fear_greed_gauge = make_fear_greed_gauge(fear_and_greed_index.value)
-# streamlit에 띄우기
-st.plotly_chart(fear_greed_gauge, use_container_width=True)
-# <<<<< 테스트 코드
+current_file_path = os.path.abspath(__file__)
+project_root_dir = os.path.dirname(current_file_path)
+
+if project_root_dir not in sys.path:
+    sys.path.append(project_root_dir)
+
+# 사이드바에 지수를 표시하는 함수를 호출합니다.
+sidebar_indices()
 
 
-# >>>>> 테스트코드 - 캔들 차트 with 지표
-import datetime
-import plotly.graph_objects as go
-import FinanceDataReader as fdr
-from ta.trend import SMAIndicator
+# 종목명 입력 후 확인 클릭 시 차트 페이지 로드
+if confirm_btn or st.session_state['page'] == 'chart': # 차트 화면 (차트, 지표 조작, 뉴스 정보)
+    st.session_state['page'] = 'chart'
+    rend_chart_page(company_name, selected_dates)
+else: # 메인 화면
+    st.header("난사 대시보드")
 
-from chart_modules.candle import make_stock_candle
 
-if confirm_btn:
-    # 우리가 필요로하는 코드조각들
-    stock_code = get_stock_code_by_company(company_name) # 종목 코드 받기
-    start_date = selected_dates[0].strftime(r"%Y-%m-%d")
-    end_date = (selected_dates[1] + datetime.timedelta(days=1)).strftime(r"%Y-%m-%d")
-    price_df = fdr.DataReader(f'KRX:{stock_code}', start_date, end_date)
+# # >>>>> 테스트 코드 - 공탐지수
+# import fear_and_greed # 공탐 지수 가져오기 라이브러리
+# from chart_modules.fear_greed import make_fear_greed_gauge # 공탐지수 게이지차트 시각화 함수 fig 반환
 
-    # 지표를 위한 컬럼 준비 - sma, std
-    # 일단 종가 기준
-    price_df['std'] = price_df['Close'].std()
-    price_df['sma'] = SMAIndicator(price_df['Close'], window=20).sma_indicator()
+# fear_and_greed_index = fear_and_greed.get() # 공탐지수 가져오기
+# # 공탐 지수 게이지 시각화 fig 오브젝트
+# fear_greed_gauge = make_fear_greed_gauge(fear_and_greed_index.value)
+# # streamlit에 띄우기
+# st.plotly_chart(fear_greed_gauge, use_container_width=True)
+# # <<<<< 테스트 코드
 
-    st.header(f"{company_name}의 주가")
-    fig = make_stock_candle(company_name, price_df)
 
-    st.plotly_chart(fig)
-# <<<<< 테스트코드
 
 
 
