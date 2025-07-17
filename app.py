@@ -2,21 +2,16 @@ import streamlit as st
 import sys
 import os
 
-from components.stock_info import (
-    get_stock_code_by_company,
-    sidebar_inputs
-)
+from components.stock_info import sidebar_inputs
 
 from components.chart_page import rend_chart_page
 # components 디렉토리 아래에 있는 sidebar_index 모듈에서 함수를 임포트합니다.
 from components.sidebar_index import sidebar_indices
 
 
-import plotly.express as px
-
-
 # ───────────────── 1. 페이지 설정 ─────────────────
 st.set_page_config(layout="wide")
+st.session_state.setdefault('page', 'main')  # 기본 페이지를 설정
 
 # 사이드바에 종목명 입력 -> 
 company_name, selected_dates, confirm_btn = sidebar_inputs()
@@ -35,7 +30,8 @@ sidebar_indices()
 
 
 # 종목명 입력 후 확인 클릭 시 차트 페이지 로드
-if confirm_btn: # 차트 화면 (차트, 지표 조작, 뉴스 정보)
+if confirm_btn or st.session_state['page'] == 'chart': # 차트 화면 (차트, 지표 조작, 뉴스 정보)
+    st.session_state['page'] = 'chart'
     rend_chart_page(company_name, selected_dates)
 else: # 메인 화면
     st.header("난사 대시보드")
