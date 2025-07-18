@@ -78,4 +78,4 @@
 * <a href='https://github.com/FinanceData/FinanceDataReader'>[주식 정보 - FinanceDataReader]</a>
 * <a href='https://news.naver.com/breakingnews/section/101/258'>[뉴스 크롤링 데이터 - 네이버 뉴스]</a>
 * <a href='https://github.com/zzaebok/ksenticnet/tree/master'>[한국어 감성 사전]</a>
-* <a href='https://github.com/vterron/fear-and-greed?tab=readme-ov-file'>[ 공포 탐욕 지수]</a>
+* <a href='https://github.com/vterron/fear-and-greed?tab=readme-ov-file'>[공포 탐욕 지수]</a>
