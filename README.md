@@ -64,3 +64,14 @@
 - 이소정 : 사이드바, 초기 페이지 구현
 - 이민지 : 뉴스 데이터 후처리, 워드클라우드 생성
 - 이계무 : 뉴스 데이터 크롤링, 주식 데이터 전처리 파이프라인 구성
+
+<p align="center">
+  <img src="data/logo.png" width="200">
+</p>
+
+
+## 출처 (클릭시 출처로 이동)
+* <a href='https://github.com/FinanceData/FinanceDataReader'>[주식 정보 - FinanceDataReader]</a>
+* <a href='https://news.naver.com/breakingnews/section/101/258'>[뉴스 크롤링 데이터 - 네이버 뉴스]</a>
+* <a href='https://github.com/zzaebok/ksenticnet/tree/master'>[한국어 감성 사전]</a>
+* <a href='https://github.com/vterron/fear-and-greed?tab=readme-ov-file'>[ 공포 탐욕 지수]</a>
