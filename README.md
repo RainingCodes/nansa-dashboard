@@ -69,7 +69,7 @@
 | **이계무** | 뉴스 데이터 크롤링, 주식 데이터 전처리 파이프라인 구성 |
 
 
-<p align="center">
+<p>
   <img src="data/logo.png" width="200">
 </p>
 
